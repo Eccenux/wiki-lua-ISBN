@@ -78,6 +78,9 @@ function priv.analyze(isbn)
 		-- numer ma odowiednie cyfry z opcjonalnymi separatorami
 		local clean, n = string.gsub(isbn, "%-", "")
 		result.code, result.n = string.upper(clean), n
+		-- (kosztowne!) spr. czy istnieje Moduł:ISBN/123456789X
+		-- założenie jest takie, że jeśli istnieje podstrona, to numer jest nieprawidłowy, ale znany
+		-- (czyli czy ew. błąd jest uzasadniony)
 		result.justified = mw.title.new(resources.findLinkPrefix..clean).exists
 	end
 	
