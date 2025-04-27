@@ -24,7 +24,7 @@ local resources = {
 
 function priv.deduceSeparators(number, prefix)
 
-	function priv.deduce(region, regionLen)
+	local function deduce(region, regionLen)
 		for _, v in ipairs(region) do
 			local minimum, maximum = string.match(v, "^(%d-)%-(%d-)$")
 			if minimum and maximum and #minimum==#maximum and (minimum <= maximum) then
