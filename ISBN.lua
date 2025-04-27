@@ -1,3 +1,8 @@
+local p = {}
+local priv = {} -- private functions scope
+-- expose private for easy testing/debugging
+p.__priv = priv
+
 local resources = {
 	classLink = "isbn",
 	classIncorrect = "isbn-incorrect",
@@ -17,9 +22,9 @@ local resources = {
 	defaultPrefix13 = "978-",
 }
 
-local function deduceSeparators(number, prefix)
+function priv.deduceSeparators(number, prefix)
 
-	local function deduce(region, regionLen)
+	function priv.deduce(region, regionLen)
 		for _, v in ipairs(region) do
 			local minimum, maximum = string.match(v, "^(%d-)%-(%d-)$")
 			if minimum and maximum and #minimum==#maximum and (minimum <= maximum) then
@@ -65,7 +70,7 @@ local function deduceSeparators(number, prefix)
 	end
 end
 
-local function analyze(isbn)
+function priv.analyze(isbn)
 	local result = {}
 	
 	result.isbn = isbn
@@ -111,7 +116,7 @@ local function analyze(isbn)
 	end
 	
 	if not result.error and (result.n == 0) and (result.prefix ~= nil) and result.checksum and result.number then
-		local prettyNumber = deduceSeparators(result.number, result.prefix)
+		local prettyNumber = priv.deduceSeparators(result.number, result.prefix)
 		if prettyNumber then
 			result.org = result.isbn
 			result.isbn = (result.prefix or "")..prettyNumber..result.checksum
@@ -121,7 +126,7 @@ local function analyze(isbn)
 	return result
 end
 
-local function printISBN(builder, info, prefix)
+function priv.printISBN(builder, info, prefix)
 
 	local ns = mw.title.getCurrentTitle().namespace
 	
@@ -155,12 +160,12 @@ local function printISBN(builder, info, prefix)
 		:wikitext((info.justified and (ns == 0)) and resources.categoryInvalidNumber or "")
 end
 
-return {
-
-link = function(builder, isbn)
+-- moduły wywołują: builder[html], link[string]
+-- szablony wywołują: builder=frame
+p.link = function(builder, isbn)
 	if isbn then
-		local info = analyze(isbn)
-		printISBN(builder, info, resources.isbnPrefix)
+		local info = priv.analyze(isbn)
+		priv.printISBN(builder, info, resources.isbnPrefix)
 		return tostring(builder)
 	end
 	
@@ -168,21 +173,21 @@ link = function(builder, isbn)
 	if isbn then
 		isbn = mw.text.trim(isbn)
 		if #isbn >= 0 then
-			local info = analyze(isbn)
+			local info = priv.analyze(isbn)
 			local builder = mw.html.create()
-			printISBN(builder, info, resources.isbnPrefix)
+			priv.printISBN(builder, info, resources.isbnPrefix)
 			return tostring(builder)
 		end
 	end
-end,
+end
 
-opis = function(frame)
+p.opis = function(frame)
 	local isbn = type(frame) == "string" and frame or (frame[1] or frame.args[1] or frame:getParent().args[1] or mw.title.getCurrentTitle().subpageText)
-	local info = analyze(isbn)
+	local info = priv.analyze(isbn)
 	local result = mw.html.create()
 		:tag("tt"):wikitext("{{[[Szablon:ISBN|ISBN]]|", mw.text.nowiki(isbn), "}}"):done()
 		:wikitext(" → ")
-	printISBN(result, info, resources.isbnPrefix)
+	priv.printISBN(result, info, resources.isbnPrefix)
 	if info.error then
 		result:wikitext("\n* ", mw.getContentLanguage():ucfirst(info.error), ".")
 	end
@@ -212,6 +217,6 @@ opis = function(frame)
 	end
 
 	return tostring(result)
-end,
+end
 
-}
+return p
