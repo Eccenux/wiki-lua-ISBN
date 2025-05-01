@@ -22,14 +22,26 @@ Ale również:
 	`mw.title.new(resources.findLinkPrefix..clean).exists`
 - [ ] Zamienić ładowanie podstron na jeden lub kilka ładowanych plików.
 	Badanie exist jest wolne (kosztowne).
-	Dodatkowo te podstrony są trochę zbyt magiczne.
+	Dodatkowo te podstrony są trochę zbyt magiczne (nie ma nawet dokumentacji co należy dodać na tych podstronach).
 	[XOR] Najlepiej z punktu widzenia użytkowników pewnie byłoby mieć JSON (łatwiejszy do edycji i podglądu... trochę?...).
 	[XOR] Łatwiej z punktu widzenia Lua byłoby ładować dane z Lua. No i w Lua jednak można komentarze dodać...🤔
-	- [ ] Pobrać kod podstron. (BTW. dokumentacja tych podstron generuje się automatycznie) 
-	- [ ] Ile stron linkuje do nieprawidłowych? Skasować część zbędnych? Jak numer ma złą liczbę cyfr, to taka podstrona ma sens?
-	- [ ] Spr. autorów i ew. daty. Ktoś dodawał te podstrony poza PZ? Ktoś dodawał je niedawno?
-	- [ ] Komentarz z podstron dodać do informacji o błędzie? (wrzucić w jakiś props obiektu i może dodać jako title="" w html?)
+
+	Research:
+	- [x] Spr. autorów i ew. daty. Ktoś dodawał te podstrony poza PZ? Ktoś dodawał je niedawno?
+		-> czasem ktoś coś dodaje, ale rzadko.
+		-> większość jednak dodał PZ 2016-12-08.
+	- [x] Pobrać kod podstron.
+		(Side note: dokumentacja tych podstron generuje się automatycznie) 
+	- [x] Ile stron linkuje do nieprawidłowych? Skasować część zbędnych? Jak numer ma złą liczbę cyfr, to taka podstrona ma sens? -> podstrona jest tylko informacją, że numer jest prawidłowo wpisany (nieprawidłowy, ale gdzieś potwierdzony).
+
+	Budowanie nowej listy:
+	- [x] Zbudować listę z meta i pobranych plików.
+	- [x] Komentarz z podstron dodać do info o błędzie? -> tylko jako komentarz w pliku za sugestią PZ
+	- [x] Podmiana `justified` na spr. tabeli.
 	- [ ] Zmienić pcall na sprawdzenie czy istnieje w tabeli.
+	- [ ] Raportowanie błędnych numerów w kategorii?
+		categoryIncorrectNumber
+		categoryInvalidNumber
 - [ ] Sprzątanie
 	- [ ] Skasować podstrony numeryczne.
 	- [ ] Wywalić magiczną generację dokumentacji podstron ISBN? Gdzie to jest?

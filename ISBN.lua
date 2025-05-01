@@ -10,7 +10,6 @@ local resources = {
 	classJustified = "isbn-usprawiedliwiony",
 	classPretty = "isbn-ulepszony",
 	specialBooksPrefix = "Specjalna:Książki/",
-	findLinkPrefix = "Moduł:ISBN/",
 	isbnPrefix = "ISBN&#160;",
 	categoryIncorrectNumber = "[[Kategoria:Artykuły z nieprawidłowymi numerami ISBN]]",
 	categoryInvalidNumber = "[[Kategoria:Artykuły z błędnymi numerami ISBN]]",
@@ -21,6 +20,20 @@ local resources = {
 	errorPretend13 = "numer ISBN-13 zawiera niewłaściwe cyfry na kluczowych pozycjach",
 	defaultPrefix13 = "978-",
 }
+
+local goodInvalidIsbn = mw.loadData( 'Moduł:ISBN/usprawiedliwiony-niepoprawny' )
+
+-- Założenie jest takie, że jeśli istnieje wpis w goodInvalidIsbn,
+-- to numer jest uznawany z prawidłowy mimo nieprawidłowej sumy kontrolnej itp
+-- (czyli błąd jest usprawiedliwiony)
+function priv.isGoodInvalidIsbn(isbn)
+	for _, v in ipairs(goodInvalidIsbn) do
+		if v == isbn then
+			return true
+		end
+	end
+	return false
+end
 
 function priv.deduceSeparators(number, prefix)
 
@@ -78,10 +91,8 @@ function priv.analyze(isbn)
 		-- numer ma odowiednie cyfry z opcjonalnymi separatorami
 		local clean, n = string.gsub(isbn, "%-", "")
 		result.code, result.n = string.upper(clean), n
-		-- (kosztowne!) spr. czy istnieje Moduł:ISBN/123456789X
-		-- założenie jest takie, że jeśli istnieje podstrona, to numer jest nieprawidłowy, ale znany
-		-- (czyli czy ew. błąd jest uzasadniony)
-		result.justified = mw.title.new(resources.findLinkPrefix..clean).exists
+		-- błędny, ale uznawany za poprawny
+		result.justified = priv.isGoodInvalidIsbn(isbn)
 	end
 	
 	if result.code and string.match(result.code, "^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9X]$") then
