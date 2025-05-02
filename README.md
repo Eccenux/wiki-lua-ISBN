@@ -20,7 +20,7 @@ Ale również:
 	- [x] ISBN poprawny wg modułu? -> Tak, ale on zawsze próbuje pobrać uzasadnienie...
 	--> To tworzy wpis w linkujących (połączenie nazwy modułu i oczyszczonego ISBN):
 	`mw.title.new(resources.findLinkPrefix..clean).exists`
-- [ ] Zamienić ładowanie podstron na jeden lub kilka ładowanych plików.
+- [x] Zamienić ładowanie podstron na jeden lub kilka ładowanych plików.
 	Badanie exist jest wolne (kosztowne).
 	Dodatkowo te podstrony są trochę zbyt magiczne (nie ma nawet dokumentacji co należy dodać na tych podstronach).
 	[XOR] Najlepiej z punktu widzenia użytkowników pewnie byłoby mieć JSON (łatwiejszy do edycji i podglądu... trochę?...).
@@ -39,9 +39,10 @@ Ale również:
 	- [x] Komentarz z podstron dodać do info o błędzie? -> tylko jako komentarz w pliku za sugestią PZ
 	- [x] Podmiana `justified` na spr. tabeli.
 	- [x] Wyrzucenie pcall z opis (nieużywane w praktyce).
-	- [ ] Raportowanie błędnych numerów w kategorii?
+	- [x] Test kategoryzowania błędnych numerów.
 		categoryIncorrectNumber
 		categoryInvalidNumber
+- [x] Testy i rollout
 - [ ] Sprzątanie
 	- [ ] Skasować podstrony numeryczne.
 	- [ ] Wywalić magiczną generację dokumentacji podstron ISBN? Gdzie to jest?
