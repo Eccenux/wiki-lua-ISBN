@@ -12,7 +12,8 @@ end
 -- Note that this loads "ISBN.lua" file (a local file).
 local p = require('Module:ISBN')
 local isbn = '9788388147159'
-local builder = mw.html.create('div')
+local builder = mw.html.create()
 local html = p.link(builder, isbn)
-
+mw.logObject(html)
+local html = p.opis(isbn)
 mw.logObject(html)

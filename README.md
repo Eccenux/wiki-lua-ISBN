@@ -38,7 +38,7 @@ Ale również:
 	- [x] Zbudować listę z meta i pobranych plików.
 	- [x] Komentarz z podstron dodać do info o błędzie? -> tylko jako komentarz w pliku za sugestią PZ
 	- [x] Podmiana `justified` na spr. tabeli.
-	- [ ] Zmienić pcall na sprawdzenie czy istnieje w tabeli.
+	- [x] Wyrzucenie pcall z opis (nieużywane w praktyce).
 	- [ ] Raportowanie błędnych numerów w kategorii?
 		categoryIncorrectNumber
 		categoryInvalidNumber

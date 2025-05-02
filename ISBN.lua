@@ -206,30 +206,6 @@ p.opis = function(frame)
 		result:wikitext("\n* ", mw.getContentLanguage():ucfirst(info.error), ".")
 	end
 	
-	if info.justified then
-		local status, data = pcall(mw.loadData, "Moduł:ISBN/"..info.code)
-		if status then
-			_ = mw.title.new("Module:ISBN/nietrywialne moduły generujące dokumentację").id
-			result:wikitext("\n----")
-			for i, v in ipairs(data) do
-				local text = false
-				if (type(v) == "table") and (type(v.title) == "string") and (type(v.args) == "table") then
-					text = mw.getCurrentFrame():expandTemplate(v)
-				elseif type(v) == "string" then
-					text = mw.getCurrentFrame():preprocess(v)
-				end
-				
-				if text and #text > 0 then
-					result:wikitext("\n# ", text)
-				end
-			end
-		
-			if data.kategoria and type(data.kategoria) == "string" and (#data.kategoria > 0) then
-				result:wikitext("\n[[Kategoria:", data.kategoria, "]]")
-			end
-		end
-	end
-
 	return tostring(result)
 end
 
