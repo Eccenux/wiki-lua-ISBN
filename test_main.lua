@@ -37,3 +37,11 @@ local html = p.link(builder, isbn)
 mw.logObject(html)
 local html = p.opis(isbn)
 mw.logObject(html)
+
+print("\nNiepoprawny, uznany przez BN")
+local isbn = '83-0002-457-1'
+local builder = mw.html.create()
+local html = p.link(builder, isbn)
+mw.logObject(html)
+local html = p.opis(isbn)
+mw.logObject(html)

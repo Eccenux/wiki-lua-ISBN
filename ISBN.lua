@@ -81,12 +81,11 @@ function priv.analyze(isbn)
 	local result = {}
 	
 	result.isbn = isbn
+	-- na początek sprawdzamy czy numer ma odpowiednie znaki (nie przejmujmy się długością)
+	-- `result.code` będzie zawierać oczyszczony numer (bez kresek)
 	if string.match(isbn, "^[0-9][0-9%-]+[0-9]%-?[0-9Xx]$") and not string.match(isbn, "%-%-") then
-		-- numer ma odowiednie cyfry z opcjonalnymi separatorami
 		local clean, n = string.gsub(isbn, "%-", "")
 		result.code, result.n = string.upper(clean), n
-		-- błędny, ale uznawany za poprawny
-		result.justified = priv.isGoodInvalidIsbn(isbn)
 	end
 	
 	if result.code and string.match(result.code, "^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9X]$") then
@@ -119,10 +118,11 @@ function priv.analyze(isbn)
 		result.error = resources.errorSyntax
 	end
 
-	if result.justified and not result.error then
-		result.error = resources.errorFormal
+	-- błędny, ale uznawany za poprawny?
+	if result.code and result.error then
+		result.justified = priv.isGoodInvalidIsbn(result.code)
 	end
-	
+
 	if not result.error and (result.n == 0) and (result.prefix ~= nil) and result.checksum and result.number then
 		local prettyNumber = priv.deduceSeparators(result.number, result.prefix)
 		if prettyNumber then
