@@ -21,18 +21,12 @@ local resources = {
 	defaultPrefix13 = "978-",
 }
 
-local goodInvalidIsbn = mw.loadData( 'Moduł:ISBN/usprawiedliwiony-niepoprawny' )
-
 -- Założenie jest takie, że jeśli istnieje wpis w goodInvalidIsbn,
 -- to numer jest uznawany z prawidłowy mimo nieprawidłowej sumy kontrolnej itp
 -- (czyli błąd jest usprawiedliwiony)
 function priv.isGoodInvalidIsbn(isbn)
-	for _, v in ipairs(goodInvalidIsbn) do
-		if v == isbn then
-			return true
-		end
-	end
-	return false
+	return mw.loadData('Moduł:ISBN/usprawiedliwiony')[isbn]
+		or false
 end
 
 function priv.deduceSeparators(number, prefix)
